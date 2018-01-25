@@ -15,7 +15,7 @@ if (process.argv.length <= 2) {
 }
  
 var path = process.argv[2];
-fs.readdir(path, async function(err, items) {
+fs.readdir(path, function(err, items) {
   const total = items.length;
 
   for (var i=0; i<items.length; i++) {
