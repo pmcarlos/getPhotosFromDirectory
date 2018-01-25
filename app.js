@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const PhotosController = require('./controllers/photos');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/fotos', {
+mongoose.connect('mongodb://movilidad:passaro2017@ds115758.mlab.com:15758/fotosmovilidad', {
     //useMongoClient: true
 });
 
