@@ -13,20 +13,27 @@ module.exports = {
           });        
     },
 
-    getPhoto: async (req, res, next) => {
+    getPhoto: (req, res, next) => {
         console.log('getphoto');
         const {imei} = req.params;
         const date = new Date(req.params.date);
 
-        const photo = await Photo.findOne({imei: imei, date: {'$lte':date}}).sort({date: 'desc'});
+        Photo.findOne({imei: imei, date: {'$lte':date}}).sort({date: 'desc'})
+            .then(function(photo) {
+                if(!photo) {
+                    return res.status(404).json('Not found');
+                    console.log(`No existe una photo para el imei: ${req.params.imei} en la fecha ${req.params.date}`);
+                } else {
+                    request('http://drongeic.mx:8080/movilidad/uploads/'+photo.photo).pipe(res);
+                }
 
-        if(!photo) 
-            error('No existe',
-                `No existe una photo para el imei: ${req.params.imei} en la fecha ${req.params.date}`,404); 
+                
 
-        const response = [photo, date];
+            }, function(err) {
+                console.log('error');
+            });
 
-        request('http://drongeic.mx:8080/movilidad/uploads/'+photo.photo).pipe(res);
+        
         
     },
 
