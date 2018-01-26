@@ -24,6 +24,7 @@ module.exports = {
                     return res.status(404).json('Not found');
                     console.log(`No existe una photo para el imei: ${req.params.imei} en la fecha ${req.params.date}`);
                 } else {
+                    res.writeHead(200, {'Content-Type': 'image/jpeg'});
                     request('http://drongeic.mx:8080/movilidad/uploads/'+photo.photo).pipe(res);
                 }
 
